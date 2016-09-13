@@ -1,8 +1,15 @@
+;;(tool-bar-mode -1)
 (setq-default truncate-lines t)
+(xterm-mouse-mode t)
 (global-linum-mode)
 (set-face-attribute 'default nil :height 120)
 (setq backup-inhibited t)
-(tabbar-mode)
+;;(tabbar-mode)
+(menu-bar-mode -1)
+(setq column-number-mode t)
+
+(require 'mwheel)
+(mouse-wheel-mode)
 
 ;; Haskell mode.
 (add-to-list 'load-path "~/.emacs.d/haskell-mode/")
@@ -17,7 +24,6 @@
 
 ;; google-c-style
 ;;(add-to-list 'load-path "~/.emacs.d/google-c-style.el")
-(add-to-list 'load-path "~/.emacs.d")
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
 ;; clojure hook
@@ -36,15 +42,15 @@
 
 ;; C-Sharp Hook
 ;;(add-to-list 'load-path "~/.emacs.d/csharp-mode.el")
-(add-to-list 'load-path "~/.emacs.d")
 (setq auto-mode-alist (cons '("\\.cs$" . csharp-mode) auto-mode-alist))
 (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
 
 ;; Python Hook
 (add-hook 'python-mode-hook
-          (function (lambda ()
-                      (setq indent-tabs-mode nil
-                            tab-width 4))))
+      (lambda ()
+        (setq indent-tabs-mode t)
+        (setq tab-width 4)
+        (setq python-indent 4)))
 
 ;; pari/gp mode
 (add-to-list 'load-path "~/.emacs.d/pariemacs")
