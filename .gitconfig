@@ -1,0 +1,19 @@
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	br = branch
+	lg = log --graph
+
+[user]
+	name = Maxwell Sayles
+	email = maxwellsayles@gmail.com
+[credential]
+	helper = cache
+[color]
+	ui = true
+[core]
+	autocrlf = input
+	editor = emacs -nw
+[push]
+	default = simple

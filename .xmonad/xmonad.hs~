@@ -1,0 +1,38 @@
+-- default desktop configuration for Fedora
+
+import System.Posix.Env (getEnv)
+import System.Process (createProcess, shell)
+import Data.Maybe (maybe)
+
+import XMonad
+import XMonad.Config.Desktop
+import XMonad.Config.Gnome
+import XMonad.Config.Kde
+import XMonad.Config.Xfce
+
+import qualified Data.Map as M
+
+main = do
+     _ <- createProcess $ shell "~/.fehbg"
+     session <- getEnv "DESKTOP_SESSION"
+     let config = maybe desktopConfig desktop session
+     xmonad config
+       { modMask = mod4Mask
+       , terminal = "gnome-terminal"
+       , normalBorderColor = "#303030"
+       , focusedBorderColor = "#0050A0"
+       , keys = \c -> mykeys c `M.union` keys defaultConfig c
+       }
+
+desktop "gnome" = gnomeConfig
+desktop "kde" = kde4Config
+desktop "xfce" = xfceConfig
+desktop "xmonad-mate" = gnomeConfig
+desktop _ = desktopConfig
+
+mykeys (XConfig {modMask = modm}) = M.fromList $
+       [
+         ((modm, xK_p), spawn "rofi -show run")
+--       , ((modm, xK_t), spawn "gnome-terminal")
+       , ((modm, xK_b), spawn "firefox")
+       ]
