@@ -43,6 +43,8 @@ bindsym XF86Display exec ~/bin/toggle-display.sh
 bindsym XF86MonBrightnessUp exec ~/bin/light up
 bindsym XF86MonBrightnessDown exec ~/bin/light down
 
+bindsym $mod+t exec notify-send -t 500 "$(echo -e "`date`\n`acpi -b`")"
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
