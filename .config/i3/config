@@ -42,8 +42,7 @@ bindsym XF86Display exec ~/bin/toggle-display.sh
 bindsym XF86MonBrightnessUp exec ~/bin/light up
 bindsym XF86MonBrightnessDown exec ~/bin/light down
 
-# bindsym $mod+t exec notify-send -t 1000 "$(echo -e "`date`\n`acpi -b | grep "Battery 0"`")"
-bindsym $mod+t exec notify-send -t 1000 "$(echo -e "`date`\n`battery`")"
+bindsym $mod+t exec dunstify -t 1000 "$(echo -e "`date`\n`battery`")"
 
 # kill focused window
 bindsym $mod+Shift+q kill
