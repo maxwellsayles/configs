@@ -11,7 +11,6 @@
 
 exec "xrandr --output eDP-1 --auto --mode 1600x900"
 exec "feh --bg-fill ~/Pictures/background.jpg"
-exec-always nm-applet
 
 set $mod Mod4
 
@@ -43,7 +42,8 @@ bindsym XF86Display exec ~/bin/toggle-display.sh
 bindsym XF86MonBrightnessUp exec ~/bin/light up
 bindsym XF86MonBrightnessDown exec ~/bin/light down
 
-bindsym $mod+t exec notify-send -t 500 "$(echo -e "`date`\n`acpi -b`")"
+# bindsym $mod+t exec notify-send -t 1000 "$(echo -e "`date`\n`acpi -b | grep "Battery 0"`")"
+bindsym $mod+t exec notify-send -t 1000 "$(echo -e "`date`\n`battery`")"
 
 # kill focused window
 bindsym $mod+Shift+q kill
