@@ -1,0 +1,11 @@
+#!/bin/bash
+intern=eDP-1
+extern=HDMI-1
+
+if xrandr | grep "$extern disconnected"; then
+    xrandr --output "$extern" --off --output "$intern" --auto --mode 1600x900
+else
+    xrandr --output "$intern" --off --output "$extern" --auto
+fi
+
+feh --bg-fill ~/Pictures/background.jpg
