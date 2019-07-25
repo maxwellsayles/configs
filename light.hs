@@ -2,7 +2,7 @@ import Control.Applicative
 import System.Environment (getArgs)
 
 brightnessDelta :: Int
-brightnessDelta = 16
+brightnessDelta = 8
 
 brightnessFilename :: String
 brightnessFilename = "/sys/class/backlight/intel_backlight/brightness"
