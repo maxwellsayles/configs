@@ -95,10 +95,10 @@ bindsym $mod+Shift+Right move container to workspace next ; workspace next
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+# restart inplace (preserves your layout/session, can be used to upgrade)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-msg exit"
+# exit (logs you out of your session)
+bindsym $mod+Shift+e exec "swaymsg exit"
 
 bindsym $mod+r mode "resize"
 bindsym $mod+Control+j resize grow width 10 px or 2 ppt
