@@ -4,4 +4,4 @@ power=$(echo ${power_percent}% $power_status)
 now=$(date +'%Y-%m-%d %l:%M %p')
 
 # Emojis https://unicode.org/emoji/charts/full-emoji-list.html
-echo "🔋 $power  🧭 $now "
+echo "🔋 $power  🧭 $now  "
