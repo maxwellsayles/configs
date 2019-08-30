@@ -99,8 +99,6 @@ bindsym $mod+Shift+Right move container to workspace next ; workspace next
 bindsym $mod+Shift+c reload
 # restart inplace (preserves your layout/session, can be used to upgrade)
 bindsym $mod+Shift+r restart
-# exit (logs you out of your session)
-bindsym $mod+Shift+e exec "swaymsg exit"
 
 bindsym $mod+r mode "resize"
 bindsym $mod+Control+j resize grow width 10 px or 2 ppt
@@ -142,3 +140,16 @@ bar {
         inactive_workspace #323232 #323232 #5c5c5c
     }
 }
+
+set $Pause-break  System (l)ock, (e)xit, (s)hutdown, (r)eboot, sus(p)end
+mode "$Pause-break" {
+    bindsym e exec --no-startup-id swaymsg exit, mode "default"
+    bindsym p exec --no-startup-id systemctl suspend, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym s exec --no-startup-id systemctl poweroff -i, mode "default"
+    bindsym l exec --no-startup-id swaylock -c "#000000", mode "default"
+
+    bindsym Return  mode "default"
+    bindsym Escape  mode "default"
+}
+bindsym $mod+Shift+e mode "$Pause-break"
