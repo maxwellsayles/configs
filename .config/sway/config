@@ -12,14 +12,14 @@ font pango:monospace 8
 floating_modifier $mod
 
 # Apps
+bindsym $mod+d exec rofi -show run
 bindsym $mod+Return exec gnome-terminal
 bindsym $mod+b exec firefox
+bindsym $mod+n exec nautilus
+bindsym --release $mod+Control+s exec swaylock -c "#000000"
 
 # kill focused window
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec rofi -show run
-
-bindsym --release $mod+Control+s exec swaylock -c "#000000"
 
 # change focus
 bindsym $mod+j focus left
@@ -100,7 +100,6 @@ bindsym $mod+Shift+c reload
 # restart inplace (preserves your layout/session, can be used to upgrade)
 bindsym $mod+Shift+r restart
 
-bindsym $mod+r mode "resize"
 bindsym $mod+Control+j resize grow width 10 px or 2 ppt
 bindsym $mod+Control+k resize grow height 10 px or 2 ppt
 bindsym $mod+Control+l resize shrink height 10 px or 2 ppt
@@ -113,7 +112,7 @@ for_window [app_id="org.gnome.Weather"] floating enable
 for_window [app_id="gnome-system-monitor"] floating enable
 for_window [app_id="gnome-power-statistics"] floating enable
 
-# Pulse Audio controls
+# amixer controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 10%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 10%-
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle
