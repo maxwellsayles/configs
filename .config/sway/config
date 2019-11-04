@@ -3,6 +3,7 @@ set $mod Mod4
 output * bg ~/Pictures/background.jpg fill
 
 exec ~/bin/redshift -t 5500:3500
+exec ~/bin/light set 128
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
