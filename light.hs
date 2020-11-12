@@ -10,20 +10,30 @@ brightnessFilename = "/sys/class/backlight/intel_backlight/brightness"
 maxBrightnessFilename :: String
 maxBrightnessFilename = "/sys/class/backlight/intel_backlight/max_brightness"
 
-changeBrightness :: String -> IO ()
-changeBrightness mode = do
-  value <- read <$> readFile brightnessFilename
+currentBrightness :: IO Int
+currentBrightness = do
+  val <- read <$> readFile brightnessFilename
+  return $! val
+
+changeBrightness :: String -> [String] -> IO ()
+changeBrightness mode args = do
+  value <- currentBrightness
   maxValue <- read <$> readFile maxBrightnessFilename
-  let delta = case mode of
-        "up" -> brightnessDelta
-        "down" -> - brightnessDelta
-        _ -> error "Expected mode to be 'up' or 'down'"
-  print delta
-  let value' = min maxValue $ max 0 $ value + delta
-  writeFile brightnessFilename $! show value'
+  let value' = case mode of
+        "up" -> value + brightnessDelta
+        "down" -> value - brightnessDelta
+        "set" -> read (head args)
+        _ -> error "Unrecognized mode"
+  let value'' = min maxValue $ max 0 value'
+  print value''
+  writeFile brightnessFilename $! show value''
 
 usage :: IO ()
-usage = putStrLn "Usage: light up/down"
+usage = do
+  putStrLn "Usage:"
+  putStrLn "  light up         - increase by 8"
+  putStrLn "  light down       - decrease by 8"
+  putStrLn "  light set <val>  - set value to <val>"
 
 main :: IO ()
 main = do
@@ -32,4 +42,4 @@ main = do
     then usage
     else do
       let mode = head args
-      changeBrightness mode
+      changeBrightness mode (tail args)
