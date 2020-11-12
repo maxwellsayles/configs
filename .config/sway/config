@@ -1,25 +1,41 @@
 set $mod Mod4
+set $laptop eDP-1
 
-output * bg ~/Pictures/background.jpg fill
-
+exec nm-applet
 exec ~/bin/redshift -t 5500:3500
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+#font pango:monospace 10
+font pango:sans 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# Apps
+# app launchers
+bindsym $mod+d exec rofi -show run
+bindsym $mod+n exec nautilus
+bindsym --release $mod+Control+s exec swaylock -c "#000000"
+bindsym $mod+Shift+g exec ~/bin/grim -g "$(~/bin/slurp)" ~/screenshot-"$(date '+%s')".png
 bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Shift+b exec google-chrome
 bindsym $mod+b exec firefox
+
+# power
+bindsym $mod+p exec /usr/share/tlp/tpacpi-bat -s FD 1 0
+bindsym $mod+Shift+p exec /usr/share/tlp/tpacpi-bat -s FD 1 1
+
+# display
+bindsym XF86Display exec "swaymsg output eDP-1 enable"
+bindsym XF86MonBrightnessUp exec ~/bin/light up
+bindsym XF86MonBrightnessDown exec ~/bin/light down
+
+bindsym $mod+Control+3 exec ~/bin/rs 3500
+bindsym $mod+Control+4 exec ~/bin/rs 4500
+bindsym $mod+Control+5 exec ~/bin/rs 5500
 
 # kill focused window
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec rofi -show run
-
-bindsym --release $mod+Control+s exec swaylock -c "#000000"
 
 # change focus
 bindsym $mod+j focus left
@@ -33,17 +49,17 @@ bindsym $mod+Shift+k move down
 bindsym $mod+Shift+l move up
 bindsym $mod+Shift+semicolon move right
 
-# split in horizontal orientation
+# split
 bindsym $mod+h split h
-
-# split in vertical orientation
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
+# change container layout (stacking, tabbed, toggle split)
 bindsym $mod+e layout toggle split
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
 
 # toggle tiling / floating
 bindsym $mod+space floating toggle
@@ -78,8 +94,8 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
-bindsym $mod+Left workspace prev
-bindsym $mod+Right workspace next
+# bindsym $mod+Left workspace prev
+# bindsym $mod+Right workspace next
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1 ; workspace $ws1
@@ -92,48 +108,64 @@ bindsym $mod+Shift+7 move container to workspace $ws7 ; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8 ; workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9 ; workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10 ; workspace $ws10
-bindsym $mod+Shift+Left move container to workspace prev ; workspace prev
-bindsym $mod+Shift+Right move container to workspace next ; workspace next
+# bindsym $mod+Shift+Left move container to workspace prev ; workspace prev
+# bindsym $mod+Shift+Right move container to workspace next ; workspace next
+
+
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart inplace (preserves your layout/session, can be used to upgrade)
 bindsym $mod+Shift+r restart
 
-bindsym $mod+r mode "resize"
 bindsym $mod+Control+j resize grow width 10 px or 2 ppt
 bindsym $mod+Control+k resize grow height 10 px or 2 ppt
 bindsym $mod+Control+l resize shrink height 10 px or 2 ppt
 bindsym $mod+Control+semicolon resize shrink width 10 px or 2 ppt
 
-default_border pixel 2
-for_window [class="vlc"] floating enable
-for_window [app_id="org.gnome.Nautilus"] floating enable
-for_window [app_id="org.gnome.Weather"] floating enable
+default_border pixel 1
 for_window [app_id="gnome-system-monitor"] floating enable
 for_window [app_id="gnome-power-statistics"] floating enable
+for_window [app_id="org.gnome.Nautilus"] floating enable
+for_window [app_id="org.gnome.Weather"] floating enable
+#for_window [app_id="rhythmbox"] floating enable
+for_window [app_id="nm-openconnect-auth-dialog"] floating enable
+for_window [class="vlc"] floating enable
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% # increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% # decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # toggle sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+  #increase sound volume
+bindsym $mod+F10 exec --no-startup-id amixer set Master 1%+  #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%-  #decrease sound volume
+bindsym $mod+F9 exec --no-startup-id amixer set Master 1%-  #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle # toggle sound
 bindsym XF86AudioMicMute exec --no-startup-id amixer set Capture toggle # toggle mic
 
-# Brightness
-bindsym XF86MonBrightnessUp exec ~/bin/light up # light -A 1
-bindsym XF86MonBrightnessDown exec ~/bin/light down # light -U 1
+# Outputs
+bindsym $mod+m move workspace to output left
+bindswitch lid:on output $laptop disable
+bindswitch lid:off output $laptop enable
+output $laptop scale 1.0 pos 0 0
+output "*" bg ~/Pictures/background.jpg fill
 
-input 1739:0:Synaptics_TM3289-002 {
-  tap enable
+# Inputs
+input 2:7:SynPS/2_Synaptics_TouchPad {
+  tap enabled
+  natural_scroll disabled
 }
+
+# exec swayidle -w \
+#   timeout 300 'swaylock -f -c 000000' \
+#   timeout 600 'swaymsg "output * dpms off"' \
+#     resume 'swaymsg "output * dpms on"' \
+#   before-sleep 'swaylock -f -c 000000'
 
 bar {
     mode hide
     position bottom
 
-    status_command while ~/.config/sway/status.sh; do sleep 1; done
+    status_command while ~/.config/sway/status.sh; do sleep 10; done
 
-    font pango:DejaVu Sans Mono 12
+    font pango:DejaVu Sans Mono 16
     colors {
         statusline #ffffff
         background #323232
@@ -141,15 +173,17 @@ bar {
     }
 }
 
-set $Pause-break  System (l)ock, (e)xit, (s)hutdown, (r)eboot, sus(p)end
+set $Pause-break  System (e)xit, (r)eboot, (s)hutdown, (l)ock, sus(p)end, (h)ibernate
 mode "$Pause-break" {
-    bindsym e exec --no-startup-id swaymsg exit, mode "default"
-    bindsym p exec --no-startup-id systemctl suspend, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym s exec --no-startup-id systemctl poweroff -i, mode "default"
-    bindsym l exec --no-startup-id swaylock -c "#000000", mode "default"
+    bindsym e       exec --no-startup-id swaymsg exit, mode "default"
+    bindsym r       exec --no-startup-id systemctl reboot, mode "default"
+    bindsym s       exec --no-startup-id systemctl poweroff -i, mode "default"
+    bindsym l       exec --no-startup-id swaylock -c "#000000", mode "default"
+    bindsym p       exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h       exec --no-startup-id systemctl hibernate, mode "default"
 
     bindsym Return  mode "default"
     bindsym Escape  mode "default"
 }
-bindsym $mod+Shift+e mode "$Pause-break"
+
+bindsym $mod+Shift+e          mode "$Pause-break"
